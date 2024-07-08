@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Hash;
 class UserResource extends Resource
 {
     protected static ?string $model = User::class;
+    protected static ?string $modelLabel = 'Usuário';
 
     protected static ?string $navigationIcon = 'heroicon-o-users';
 
@@ -30,9 +31,11 @@ class UserResource extends Resource
                     ->required()
                     ->label('Nome Completo')
                     ->maxLength(255),
+
                 Forms\Components\TextInput::make('email')
                     ->email()
                     ->required()
+                    ->unique(ignoreRecord: true) 
                     ->maxLength(255),
               
                 Forms\Components\TextInput::make('password')

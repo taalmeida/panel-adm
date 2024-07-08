@@ -11,6 +11,12 @@ class CreateUser extends CreateRecord
 {
         protected static string $resource = UserResource::class;
 
+        //redirect the given url after create
+        protected function getRedirectUrl(): string
+        {
+            return $this->getResource()::getUrl('index');
+        }
+
         //save with hash password
         // protected function mutateFormDataBeforeCreate(array $data): array
         // {

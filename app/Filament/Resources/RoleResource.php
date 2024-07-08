@@ -19,6 +19,9 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 class RoleResource extends Resource
 {
     protected static ?string $model = Role::class;
+    protected static ?string $modelLabel = 'Função';
+    protected static ?string $pluralModelLabel = 'Funções';
+    protected static ?string $navigationGroup = 'Configurações';
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
@@ -28,11 +31,13 @@ class RoleResource extends Resource
             ->schema([
                 Forms\Components\TextInput::make('name')
                     ->required()
-                    ->label('Nome da Regra')
+                    ->unique(ignoreRecord: true) 
+                    ->label('Função')
                     ->maxLength(255),
 
                     //defining belongs to many relationship beetwin permissions and roles
                 Forms\Components\Select::make('permissions')
+                ->label('Permissões')
                 ->multiple()
                 ->preload() //load register datas
                 ->relationship('permissions', 'name'),  
@@ -44,7 +49,7 @@ class RoleResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
-                    ->label('Nome da Regra')
+                    ->label('Função')
                     ->searchable(),
                
                 Tables\Columns\TextColumn::make('created_at')
